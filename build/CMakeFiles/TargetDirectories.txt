@@ -1,0 +1,4 @@
+/Users/alexfresh/tpmp-gr9b-lab4-superteam_lab4/build/CMakeFiles/tourism_bureau.dir
+/Users/alexfresh/tpmp-gr9b-lab4-superteam_lab4/build/CMakeFiles/tourism_tests.dir
+/Users/alexfresh/tpmp-gr9b-lab4-superteam_lab4/build/CMakeFiles/edit_cache.dir
+/Users/alexfresh/tpmp-gr9b-lab4-superteam_lab4/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/tourism_tests.dir/tests/test_auth.cpp.o CMakeFiles/tourism_tests.dir/src/auth.c.o -o /Users/alexfresh/tpmp-gr9b-lab4-superteam_lab4/bin/tourism_tests  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/libsqlite3.tbd /usr/local/lib/libgtest_main.a /usr/local/lib/libgtest.a
