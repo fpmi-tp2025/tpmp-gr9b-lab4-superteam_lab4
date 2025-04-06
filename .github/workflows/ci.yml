@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ '*' ]
   pull_request:
-    branches: [ main ]
+    branches: [ '*' ]
 
 jobs:
   build-and-test:
@@ -18,26 +18,31 @@ jobs:
       run: |
         brew update
         brew install cmake sqlite
-        echo "CC=$(which clang)" >> $GITHUB_ENV
-        echo "CXX=$(which clang++)" >> $GITHUB_ENV
-        # Установка GoogleTest вручную
+
+    - name: Build GoogleTest
+      run: |
         git clone https://github.com/google/googletest.git
         cd googletest
-        cmake -B build -DCMAKE_BUILD_TYPE=Release
-        cmake --build build
-        sudo cmake --install build
-        cd ..
-    - name: Configure and build
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .
+        make
+        sudo make install
+
+    - name: Clean build directory
       run: |
         rm -rf build
         mkdir build
+
+    - name: Configure and build
+      run: |
         cd build
         cmake -DCMAKE_BUILD_TYPE=Release ..
         make
+
     - name: Run tests
       run: |
         cd build
         ctest --output-on-failure
+
     - name: Verify binary
       run: |
         ./build/bin/tourism_bureau --help || true
