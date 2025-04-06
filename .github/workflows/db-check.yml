@@ -1,0 +1,18 @@
+name: Database CI
+
+on: [push, pull_request]
+
+jobs:
+  db-integrity-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up SQLite
+      run: sudo apt-get install -y sqlite3
+      
+    - name: Verify database schema
+      run: |
+        sqlite3 database/tourism_bureau.db "PRAGMA foreign_key_check;"
+        sqlite3 database/tourism_bureau.db "SELECT 'Tables count:', COUNT(*) FROM sqlite_master WHERE type='table';"
+        sqlite3 database/tourism_bureau.db "SELECT 'Test query:', b.number, COUNT(t.id) FROM buses b LEFT JOIN trips t ON b.id=t.bus_id GROUP BY b.number;"
