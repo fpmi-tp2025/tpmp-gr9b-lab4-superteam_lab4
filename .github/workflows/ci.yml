@@ -18,18 +18,21 @@ jobs:
       run: |
         brew update
         brew install cmake sqlite
+        echo "CC=$(which clang)" >> $GITHUB_ENV
+        echo "CXX=$(which clang++)" >> $GITHUB_ENV
 
-    - name: Build GoogleTest
-      run: |
+        # Установка GoogleTest вручную
         git clone https://github.com/google/googletest.git
         cd googletest
-        cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
+        cmake -B build -DCMAKE_BUILD_TYPE=Release
         cmake --build build
         sudo cmake --install build
+        cd ..
 
     - name: Configure and build
       run: |
-        mkdir -p build
+        rm -rf build
+        mkdir build
         cd build
         cmake -DCMAKE_BUILD_TYPE=Release ..
         make
@@ -41,5 +44,5 @@ jobs:
 
     - name: Verify binary
       run: |
-        ./bin/tourism_bureau --help || true
-        file ./bin/tourism_bureau
+        ./build/bin/tourism_bureau --help || true
+        file ./build/bin/tourism_bureau
