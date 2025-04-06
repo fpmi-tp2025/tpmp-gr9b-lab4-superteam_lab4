@@ -2,13 +2,13 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ '*' ]  # Запуск при пуше в любую ветку
   pull_request:
-    branches: [ main ]
+    branches: [ '*' ]  # Запуск при создании PR из/в любую ветку
 
 jobs:
   build-and-test:
-    runs-on: macos-latest
+    runs-on: macos-latest  # Используем macOS, как у тебя на машине
 
     steps:
     - name: Checkout code
@@ -21,18 +21,13 @@ jobs:
         echo "CC=$(which clang)" >> $GITHUB_ENV
         echo "CXX=$(which clang++)" >> $GITHUB_ENV
 
-        # Установка GoogleTest вручную
-        git clone https://github.com/google/googletest.git
-        cd googletest
-        cmake -B build -DCMAKE_BUILD_TYPE=Release
-        cmake --build build
-        sudo cmake --install build
-        cd ..
-
-    - name: Configure and build
+    - name: Clean build directory
       run: |
         rm -rf build
         mkdir build
+
+    - name: Configure and build
+      run: |
         cd build
         cmake -DCMAKE_BUILD_TYPE=Release ..
         make
