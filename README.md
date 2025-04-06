@@ -42,7 +42,6 @@ SQLite3 (libsqlite3-dev)
 GoogleTest
 
 
-
 ## Тестирование
 Модуль auth покрыт тестами, расположенными в tests/test_auth.cpp. Тесты выполняются автоматически в CI при каждом пуше в main.
 
