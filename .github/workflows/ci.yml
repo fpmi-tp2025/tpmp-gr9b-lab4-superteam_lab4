@@ -2,13 +2,13 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ '*' ]  # Запуск при пуше в любую ветку
+    branches: [ '*' ]
   pull_request:
-    branches: [ '*' ]  # Запуск при создании PR из/в любую ветку
+    branches: [ '*' ]
 
 jobs:
   build-and-test:
-    runs-on: macos-latest  # Используем macOS, как у тебя на машине
+    runs-on: macos-latest
 
     steps:
     - name: Checkout code
@@ -18,8 +18,14 @@ jobs:
       run: |
         brew update
         brew install cmake sqlite
-        echo "CC=$(which clang)" >> $GITHUB_ENV
-        echo "CXX=$(which clang++)" >> $GITHUB_ENV
+
+    - name: Build GoogleTest
+      run: |
+        git clone https://github.com/google/googletest.git
+        cd googletest
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .
+        make
+        sudo make install
 
     - name: Clean build directory
       run: |
