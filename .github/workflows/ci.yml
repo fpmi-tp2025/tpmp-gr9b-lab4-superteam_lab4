@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: macos-latest  # Используем macOS для совместимости с вашей средой
+    runs-on: macos-latest
 
     steps:
     - name: Checkout code
@@ -17,9 +17,15 @@ jobs:
     - name: Install dependencies
       run: |
         brew update
-        brew install cmake sqlite gtest
-        echo "CC=$(which clang)" >> $GITHUB_ENV
-        echo "CXX=$(which clang++)" >> $GITHUB_ENV
+        brew install cmake sqlite
+
+    - name: Build GoogleTest
+      run: |
+        git clone https://github.com/google/googletest.git
+        cd googletest
+        cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
+        cmake --build build
+        sudo cmake --install build
 
     - name: Configure and build
       run: |
